@@ -1,0 +1,78 @@
+Cho số nguyên dương N. Nhiệm vụ của bạn là hãy liệt kê tất cả các hoán vị của 1, 2, .., N. Ví dụ với N = 3 ta có kết quả: 123, 132, 213, 231, 312, 321.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một số tự nhiên N được viết trên một dòng.
+T, n thỏa mãn ràng buộc: 1≤T, N≤10.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Input
+
+Output
+
+2
+
+2
+
+3
+
+12  21
+
+123 132  213  231  312  321
+
+
+#include <bits/stdc++.h>
+#define MAX 1001
+using namespace std;
+int X[MAX], n, OK=true; 
+
+void Init(void) {
+	cin>>n; 
+	OK = true;
+	for(int i=1; i<=n; i++) X[i]=i;
+}
+
+void Result(void) {
+	for(int i=1; i<=n; i++) cout<<X[i];
+	cout<<" ";
+}
+
+void Next_Permutation(void) {
+	int j = n-1;
+	while(j > 0 && X[j] > X[j+1]) { 
+		j--; 
+	}
+	if(j>0) { 
+		int k =n; 
+		while(X[j]>X[k]) 
+			k--;
+	
+		int t = X[j]; X[j]=X[k]; X[k]=t; 
+
+		int r = j+1, s = n;
+		while(r<=s) {
+			t = X[r]; X[r]=X[s]; X[s]=t;			
+			r++; s--;
+		}
+	}
+	else {
+		for(int i=1; i<=n; i++) X[i]=i;
+		OK = false;
+	} 
+}
+void Permutation (void){
+	Init();
+	while (OK){
+		Result();
+		Next_Permutation();
+	}
+	cout<<endl;
+}
+int main(void) {
+	int T; cin>>T;
+	while(T--){
+		Permutation();
+	}
+}
