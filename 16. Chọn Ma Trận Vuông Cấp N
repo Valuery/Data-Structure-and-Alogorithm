@@ -1,0 +1,92 @@
+Cho ma trận vuông Ci,j cấp N (1£ i, j £ N£10) gồm N2 số tự nhiên và số tự nhiên K (các số trong ma trận không nhất thiết phải khác nhau và đều không quá 100, K không quá 104). Hãy viết chương trình lấy mỗi hàng, mỗi cột duy nhất một phần tử sao cho tổng các phần tử này đúng bằng K.
+
+Dữ liệu vào: Dòng 1 ghi hai số N và K. N dòng tiếp theo ghi ma trận C. 
+
+Kết quả: dòng đầu ghi số cách tìm được. Mỗi dòng tiếp theo ghi một cách theo vị trí của số đó trong lần lượt từng hàng của ma trận. Xem ví dụ để hiểu rõ hơn. 
+
+Ví dụ:
+
+INPUT
+
+OUTPUT
+
+3 10
+
+2 4 3
+
+1 3 6
+
+4 2 4
+
+    
+
+2
+
+1 3 2
+
+3 2 1
+
+
+#include <bits/stdc++.h>
+#define MAX 1001
+using namespace std;
+int a[50][50];
+int X[50];
+int n,k,OK = true;
+vector<int> Res;
+void Init(void) {
+	cin>>n>>k; 
+	OK = true;
+	for(int i=1; i<=n; i++) {
+		for (int j = 1; j<=n; j++){
+				cin>>a[i][j];
+		}
+	}
+	for (int i = 1; i<=n; i++) X[i]= i;
+}
+void Result (void){
+		int res=0;
+		for (int i = 1; i<=n; i++) res+= a[i][X[i]];
+		if (res == k){
+			for (int i = 1; i<=n; i++){
+				Res.push_back(X[i]);
+			}
+		}
+}
+void Next_Permutation(void) {
+	int j = n-1;
+	while(j > 0 && X[j] > X[j+1]) { 
+		j--; 
+	}
+	if(j>0) { 
+		int k =n; 
+		while(X[j]>X[k]) 
+			k--;
+	
+		int t = X[j]; X[j]=X[k]; X[k]=t; 
+
+		int r = j+1, s = n;
+		while(r<=s) {
+			t = X[r]; X[r]=X[s]; X[s]=t;			
+			r++; s--;
+		}
+	}
+	else {
+		for(int i=1; i<=n; i++) X[i]=i;
+		OK = false;
+	} 
+}
+int main(void) {
+	Init();
+	
+	while (OK){
+		Result();
+		Next_Permutation();
+	}
+		
+	cout<<Res.size()/n;	
+	for (int i = 0; i<Res.size(); i++){
+		if (i%n==0) cout<<endl;
+		cout<<Res[i]<<" ";
+	}
+}
