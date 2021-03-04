@@ -1,0 +1,71 @@
+Cho số nguyên N. Nhiệm vụ của bạn cần tìm số nguyên X nhỏ nhất là bội của N, và X chỉ chứa hai chữ số 0 và 9.
+
+Input: Dòng đầu tiên là số lượng bộ test T (T ≤ 10000). Mỗi bộ test chứa số nguyên N trên một dòng (1 ≤ N ≤ 500).
+
+Output:  Với mỗi test in ra đáp án tìm được trên một dòng.
+
+Ví dụ:
+
+ 
+
+ 
+
+ 
+
+Input
+
+Output
+
+3
+
+2
+
+5
+
+11
+
+90
+
+90
+
+99
+
+
+#include <bits/stdc++.h>
+#define MAX 20
+using namespace std;
+
+long long transform(int *a) {
+	long long value = 0;
+	for(int i = 0; i < MAX; i++) 
+		value = (long long) value*10 + a[i];
+	return value;
+}
+
+void Next_Bits_String(int *X, bool &Ok) {
+	int i = MAX-1;
+	while(i >= 0 && X[i] == 9) {
+		X[i] = 0; i--;
+	}
+	if(i >= 0) {
+		X[i] = 9;
+	} else Ok = true;
+}
+
+int main() {
+	int t; cin >> t;
+	for(int i = 0; i < t; i++) {
+		int n; cin >> n;
+		int a[MAX] = {0};
+		a[MAX-1] = 9;
+		bool Ok = false;
+		while(!Ok) {
+			if(transform(a) % n == 0) {
+				cout << transform(a) << endl;
+				break;
+			}
+			Next_Bits_String(a, Ok);
+		}
+	} 
+}
+
