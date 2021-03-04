@@ -1,0 +1,78 @@
+Cho số tự nhiên N và một hoán vị X[] của 1, 2, .., N. Nhiệm vụ của bạn là đưa ra hoán vị tiếp theo của X[]. Ví dụ N=5, X[] = {1, 2, 3, 4, 5} thì hoán vị tiếp theo của X[] là {1, 2, 3, 5, 4}.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai dòng: dòng thứ nhất là số N; dòng tiếp theo đưa vào hoán vị X[] của 1, 2, .., N.
+T, N, X[] thỏa mãn ràng buộc: 1≤T≤100; 1≤ N≤103.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Input
+
+Output
+
+2
+
+5 
+
+1  2  3  4  5
+
+5
+
+5  4  3  2  1
+
+ 
+
+1 2  3  5  4
+
+1 2  3  4  5
+
+
+
+#include <bits/stdc++.h>
+#define MAX 1001
+using namespace std;
+int X[MAX], n; 
+
+void Init(void) {
+	cin>>n; 
+
+	for(int i=1; i<=n; i++) cin>>X[i];
+}
+
+void Result(void) {
+	for(int i=1; i<=n; i++) cout<<X[i]<<" ";
+	cout<<endl;
+}
+
+void Next_Permutation(void) {
+	int j = n-1;
+	while(j > 0 && X[j] > X[j+1]) { 
+		j--; 
+	}
+	if(j>0) { 
+		int k =n; 
+		while(X[j]>X[k]) 
+			k--;
+	
+		int t = X[j]; X[j]=X[k]; X[k]=t; 
+
+		int r = j+1, s = n;
+		while(r<=s) {
+			t = X[r]; X[r]=X[s]; X[s]=t;			
+			r++; s--;
+		}
+	}
+	else {
+		for(int i=1; i<=n; i++) X[i]=i;
+	} 
+}
+int main(void) {
+	int T; cin>>T;
+	while(T--){
+		Init();
+		Next_Permutation();
+		Result();
+	}
+}
